@@ -11,28 +11,28 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" onclick="loadPage('home')">E-Finance</a>
+      <a class="navbar-brand" th:href="@{/}">E-Finance</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto ms-4">
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadPage('payment')">Payment</a>
+            <a class="nav-link" th:href="@{/payment}">Payment</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadPage('paymentHistory')">History Of Payments</a>
+            <a class="nav-link" th:href="@{/paymentHistory}">History Of Payments</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto align-items-center">
           <li class="nav-item d-flex align-items-center me-3">
-            <a href="#" onclick="loadPage('profile')" class="d-flex align-items-center text-white text-decoration-none">
+            <a th:href="@{/profile}" class="d-flex align-items-center text-white text-decoration-none">
               <img th:src="@{/img/Resume picture.jpg}" alt="Profile" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid white;">
               <span class="ms-2 fw-bold">Vedran Kilalic</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/pages/login.html}">
+            <a class="nav-link" th:href="@{/logout}">
               Logout <i class="bi bi-door-open-fill"></i>
             </a>
           </li>
@@ -42,9 +42,13 @@
   </nav>
 </header>
 
-<div class="container">
-  <main id="app" role="main" class="pb-3">
-  </main>
+<div class="home-welcome-card" style=" margin-top: 180px; margin-left: 350px; max-width: 780px;">
+  <div class="home-icon">
+    <i class="bi bi-mortarboard-fill"></i>
+  </div>
+  <h2>E-Finance</h2>
+  <p>Pay your college fees easily and securely through our platform.</p>
+  <a th:href="@{/payment}" class="btn btn-primary mt-3">Make a Payment</a>
 </div>
 
 <footer class="border-top footer bg-primary text-white">
@@ -52,7 +56,5 @@
     E-Finance <i class="bi bi-balloon-heart-fill"></i>
   </div>
 </footer>
-
-<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

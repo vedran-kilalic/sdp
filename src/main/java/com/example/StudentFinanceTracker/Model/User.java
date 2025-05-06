@@ -1,29 +1,34 @@
 package com.example.StudentFinanceTracker.Model;
 import jakarta.persistence.*;
+
+
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String fullName;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     private String department;
 
-    @Column(nullable = false)
-    private Integer isAdmin; // 0 = user, 1 = admin
+    private Integer isAdmin;
 
-    // --- Getteri i setteri ---
+    public User() {
+    }
+    public User(String fullName, String email, String password, String department, Integer isAdmin) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.department = department;
+        this.isAdmin = isAdmin;
+    }
 
     public Long getId() {
         return id;

@@ -11987,7 +11987,7 @@ textarea.form-control-lg {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px;
+    padding: 110px;
   }
   
   .profile-card {
@@ -11995,10 +11995,10 @@ textarea.form-control-lg {
     backdrop-filter: blur(12px);
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    padding: 40px 50px;
+    padding: 40px 100px;
     max-width: 900px;
-    margin: 50px auto;
-    border: 2px solid rgba(128, 90, 213, 0.2); /* blaga ljubičasta */
+    margin: 50px;
+    border: 2px solid rgba(128, 90, 213, 0.2);
     transition: transform 0.3s ease;
   }
   
@@ -12086,8 +12086,10 @@ textarea.form-control-lg {
   }
   .payment-table-card {
     background: #fff;
-    padding: 20px;
-    margin-top: 30px;
+    padding: 60px;
+    margin-top: 160px;
+    margin-left: 250px;
+    max-width: 980px;
     border-radius: 12px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
   }
@@ -12167,9 +12169,10 @@ textarea.form-control-lg {
     text-align: center;
     max-width: 600px;
     width: 90%;
-    margin: 100px auto;
+    margin: 250px auto 80px auto;
     backdrop-filter: blur(10px);
-}
+  }
+  
 
 .home-icon {
     font-size: 50px;
@@ -12269,8 +12272,9 @@ textarea.form-control-lg {
 
   .payment-form-card {
     background-color: #fff;
-    max-width: 400px;
-    margin: 50px auto;
+    margin-top: 170px;
+    margin-left: 480px;
+    max-width: 520px;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
@@ -12398,7 +12402,9 @@ footer {
   border-radius: 16px;
   padding: 30px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  margin-top: 30px;
+  margin-top: 180px;
+  margin-left: 250px;
+  max-width: 980px;
 }
 
 .courses-table-card h3 {
@@ -12467,6 +12473,8 @@ header {
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   max-width: 600px;
+  margin-top: 50px;
+  margin-left: 410px;
   width: 100%;
   text-align: center;
   border: 2px solid #7e22ce; /* purple border */
@@ -12486,3 +12494,15 @@ header {
 .home-welcome-card p {
   color: #555;
 }
+.page-card {
+  margin-top: 180px;
+  margin-left: 250px;
+  max-width: 980px;
+}
+
+.modal-card {
+  margin-top: 110px;
+  margin-left: 250px;
+  max-width: 980px;
+}
+
