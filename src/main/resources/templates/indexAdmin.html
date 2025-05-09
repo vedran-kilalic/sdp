@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E-Finance</title>
+  <title>Admin Profile - E-Finance</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
@@ -28,7 +28,7 @@
           <li class="nav-item d-flex align-items-center me-3">
             <a th:href="@{/adminProfile}" class="d-flex align-items-center text-white text-decoration-none">
               <img th:src="@{/img/profile.jpg}" alt="Profile" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid white;">
-              <span class="ms-2 fw-bold">Admin</span>
+              <span class="ms-2 fw-bold" th:text="${session.loggedInUser.fullName}">Admin</span>
             </a>
           </li>
           <li class="nav-item">
@@ -51,7 +51,6 @@
     <p>Manage students, monitor activity, and maintain the platform smoothly.</p>
   </div>
 </div>
-
 <footer class="border-top footer bg-primary text-white">
   <div class="container text-center">
     E-Finance <i class="bi bi-balloon-heart-fill"></i>

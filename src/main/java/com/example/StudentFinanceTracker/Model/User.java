@@ -1,6 +1,6 @@
 package com.example.StudentFinanceTracker.Model;
-import jakarta.persistence.*;
 
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -20,8 +20,19 @@ public class User {
 
     private Integer isAdmin;
 
+    private String phone;
+
+    private String city;
+
+    private String birthDate;
+
+    private String gender;
+
+    private String position;
+
     public User() {
     }
+
     public User(String fullName, String email, String password, String department, Integer isAdmin) {
         this.fullName = fullName;
         this.email = email;
@@ -30,51 +41,38 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public Long getId() {
-        return id;
-    }
+    // Getters and setters
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getFullName() {
-        return fullName;
-    }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
 
-    public String getPassword() {
-        return password;
-    }
+    public Integer getIsAdmin() { return isAdmin; }
+    public void setIsAdmin(Integer isAdmin) { this.isAdmin = isAdmin; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public String getDepartment() {
-        return department;
-    }
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
+    public String getBirthDate() { return birthDate; }
+    public void setBirthDate(String birthDate) { this.birthDate = birthDate; }
 
-    public Integer getIsAdmin() {
-        return isAdmin;
-    }
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
 
-    public void setIsAdmin(Integer isAdmin) {
-        this.isAdmin = isAdmin;
-    }
+    public String getPosition() { return position; }
+    public void setPosition(String position) { this.position = position; }
 }

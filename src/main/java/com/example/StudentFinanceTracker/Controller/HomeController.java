@@ -8,6 +8,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
+        return "pages/login";
+    }
+
+    @GetMapping("/student")
+    public String index() {
         return "index";
     }
     @GetMapping("/admin")

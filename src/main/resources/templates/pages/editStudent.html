@@ -1,46 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E-Finance</title>
-  <link rel="stylesheet" href="/./static/css/styles.css"  />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Student - E-Finance</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
+<style>
+    .modal-card {
+        max-width: 1200px;
+        width: 90%;
+        margin: 100px auto;
+        padding: 25px 30px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    .modal-card .card-body {
+        padding: 0;
+        max-height: 75vh;
+        overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+        .modal-card {
+            width: 95%;
+            margin: 20px auto;
+            padding: 20px;
+        }
+    }
+</style>
 <body>
 <header>
-  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/templates/indexAdmin.html">E-Finance</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav me-auto ms-4">
-          <li class="nav-item">
-            <a class="nav-link" href="students.html">Students</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="courses.html">Courses</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item d-flex align-items-center me-3">
-            <a href="adminProfile.html" class="d-flex align-items-center text-white text-decoration-none">
-              <img src="/./static/img/profile.jpg" alt="Profile" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid white;">
-              <span class="ms-2 fw-bold">Admin</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="login.html">
-              Logout <i class="bi bi-door-open-fill"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/admin}">E-Finance</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto ms-4">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/students}">Students</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/courses}">Courses</a></li>
+                </ul>
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item d-flex align-items-center me-3">
+                        <a th:href="@{/adminProfile}" class="d-flex align-items-center text-white text-decoration-none">
+                            <img th:src="@{/img/profile.jpg}" alt="Profile" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid white;">
+                            <span class="ms-2 fw-bold" th:text="${session.loggedInUser.fullName}">Admin</span>
+                        </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout <i class="bi bi-door-open-fill"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>
+
 <div class="card shadow border-0 modal-card">
     <div class="card-header bg-secondary bg-gradient ml-0 py-2">
         <div class="row">
@@ -49,42 +69,75 @@
             </div>
         </div>
     </div>
+
     <div class="card-body p-4">
-        <form method="post" class="row">
+        <form th:action="@{'/students/update/' + ${user.id}}" th:object="${user}" method="post" class="row">
             <div class="border p-3">
                 <div class="form-floating py-2 col-12">
-                    <input type="text" id="studentName" name="studentName" class="form-control border-0 shadow" placeholder="Full Name" />
-                    <label for="studentName" class="ms-2">Full Name</label>
-                    <span class="text-danger"></span>
+                    <input type="text" th:field="*{fullName}" class="form-control border-0 shadow" placeholder="Full Name" />
+                    <label th:for="*{fullName}" class="ms-2">Full Name</label>
                 </div>
+
                 <div class="form-floating py-2 col-12">
-                    <input type="email" id="studentEmail" name="studentEmail" class="form-control border-0 shadow" placeholder="E-mail" />
-                    <label for="studentEmail" class="ms-2">E-mail</label>
-                    <span class="text-danger"></span>
+                    <input type="email" th:field="*{email}" class="form-control border-0 shadow" placeholder="E-mail" />
+                    <label th:for="*{email}" class="ms-2">E-mail</label>
                 </div>
+
+                <!-- Hidden original password to prevent null on update -->
+                <input type="hidden" th:field="*{password}" />
+
+                <!-- Optional new password input -->
                 <div class="form-floating py-2 col-12">
-                    <input type="text" id="studentDept" name="studentDept" class="form-control border-0 shadow" placeholder="Department" />
-                    <label for="studentDept" class="ms-2">Department</label>
-                    <span class="text-danger"></span>
+                    <input type="password" name="newPassword" class="form-control border-0 shadow" placeholder="New Password" />
+                    <label for="newPassword" class="ms-2">New Password (optional)</label>
                 </div>
+
+                <div class="form-floating py-2 col-12">
+                    <input type="text" th:field="*{department}" class="form-control border-0 shadow" placeholder="Department" />
+                    <label th:for="*{department}" class="ms-2">Department</label>
+                </div>
+
+                <div class="form-floating py-2 col-12">
+                    <input type="text" th:field="*{phone}" class="form-control border-0 shadow" placeholder="Phone" />
+                    <label th:for="*{phone}" class="ms-2">Phone</label>
+                </div>
+
+                <div class="form-floating py-2 col-12">
+                    <input type="text" th:field="*{city}" class="form-control border-0 shadow" placeholder="City" />
+                    <label th:for="*{city}" class="ms-2">City</label>
+                </div>
+
+                <div class="form-floating py-2 col-12">
+                    <input type="date" th:field="*{birthDate}" class="form-control border-0 shadow" />
+                    <label th:for="*{birthDate}" class="ms-2">Date of Birth</label>
+                </div>
+
+                <div class="form-floating py-2 col-12">
+                    <select th:field="*{gender}" class="form-select border-0 shadow">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <label th:for="*{gender}" class="ms-2">Gender</label>
+                </div>
+
                 <div class="row pt-2">
                     <div class="col-6 col-md-3">
                         <button type="submit" class="btn btn-success form-control">Edit</button>
                     </div>
                     <div class="col-6 col-md-3">
-                        <a href="students.html" class="btn btn-outline-primary border form-control">
-                            Back to List
-                        </a>
+                        <a th:href="@{/students}" class="btn btn-outline-primary border form-control">Back to List</a>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
 <footer class="border-top footer bg-primary text-white">
     <div class="container text-center">
-      E-Finance <i class="bi bi-balloon-heart-fill"></i>
+        E-Finance <i class="bi bi-balloon-heart-fill"></i>
     </div>
-  </footer>
-  </body>
-  </html>
+</footer>
+</body>
+</html>
