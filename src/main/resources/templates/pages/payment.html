@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>E-Finance</title>
-  <link rel="stylesheet" href="/./static/css/styles.css"  />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/templates/index.html">E-Finance</a>
+      <a class="navbar-brand" th:href="@{/student}">E-Finance</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto ms-4">
           <li class="nav-item">
-            <a class="nav-link" href="payment.html">Payment</a>
+            <a class="nav-link" th:href="@{/payments}">Payment</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="paymentHistory.html">History Of Payments</a>
+            <a class="nav-link" th:href="@{/paymentHistory}">History Of Payments</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto align-items-center">
           <li class="nav-item d-flex align-items-center me-3">
-            <a href="profile.html" class="d-flex align-items-center text-white text-decoration-none">
-              <img src="/./static/img/Resume%20picture.jpg" alt="Profile" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid white;">
-              <span class="ms-2 fw-bold">Vedran Kilalic</span>
+            <a th:href="@{/profile}" class="d-flex align-items-center text-white text-decoration-none">
+              <img th:src="@{/img/profile.jpg}" alt="Profile" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid white;">
+              <span class="ms-2 fw-bold" th:text="${session.loggedInUser.fullName}">User Name</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="login.html">
+            <a class="nav-link" th:href="@{/logout}">
               Logout <i class="bi bi-door-open-fill"></i>
             </a>
           </li>
@@ -41,47 +41,43 @@
     </div>
   </nav>
 </header>
+
 <div class="payment-table-card">
   <h3><i class="bi bi-cash-coin"></i> Upcoming Payments</h3>
   <table class="payment-table">
     <thead>
-      <tr>
-        <th>Amount (BAM)</th>
-        <th>Due Date</th>
-        <th>Status</th>
-        <th>Action</th>
-      </tr>
+    <tr>
+      <th>Amount (BAM)</th>
+      <th>Due Date</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>200</td>
-        <td>2025-04-13</td>
-        <td><span class="status upcoming">To Be Paid</span></td>
-        <td><button class="pay-btn" data-page="pay">Pay</button></td>
-      </tr>
-      <tr>
-        <td>200</td>
-        <td>2025-06-13</td>
-        <td><span class="status upcoming">To Be Paid</span></td>
-        <td><button class="pay-btn" data-page="pay">Pay</button></td>
-      </tr>
+    <tr th:each="payment : ${payments}">
+      <td th:text="${payment.amount}"></td>
+      <td th:text="${payment.paymentDate}"></td>
+      <td><span class="status upcoming">To Be Paid</span></td>
+      <td>
+        <button class="pay-btn" data-page="pay">Pay</button>
+      </td>
+    </tr>
     </tbody>
   </table>
 </div>
+
 <footer class="border-top footer bg-primary text-white">
   <div class="container text-center">
     E-Finance <i class="bi bi-balloon-heart-fill"></i>
   </div>
 </footer>
 
-<!-- Add JavaScript to handle button click -->
 <script>
   document.querySelectorAll('.pay-btn').forEach(button => {
     button.addEventListener('click', () => {
-      window.location.href = '/pages/pay.html';
+      window.location.href = '/pay';
     });
   });
 </script>
-
 </body>
 </html>

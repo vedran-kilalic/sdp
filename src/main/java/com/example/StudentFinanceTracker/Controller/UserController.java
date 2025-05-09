@@ -104,12 +104,21 @@ public class UserController {
         User user = userService.getByEmail(email);
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("loggedInUser", user);
-            return user.getIsAdmin() == 1 ? "redirect:/admin" : "redirect:/profile";
+            return user.getIsAdmin() == 1 ? "redirect:/admin" : "redirect:/student";
         } else {
             model.addAttribute("error", "Invalid credentials");
             return "pages/login";
         }
     }
+    @GetMapping("/reset-password")
+    public String showResetPasswordPage() {
+        return "pages/resetPassword";
+    }
+
+//    @PostMapping("/reset-password")
+//    public String resetPassword() {
+//        return "pages/resetPassword";
+//    }
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
