@@ -15,6 +15,9 @@ public class Course {
     private String professor;
     private Integer credits;
     private String semester;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Course() {
     }
@@ -73,5 +76,12 @@ public class Course {
 
     public void setSemester(String semester) {
         this.semester = semester;
+    }
+
+    public User getUserId(User user) {
+        return user;
+    }
+    public void setUserId(User user) {
+        this.user = user;
     }
 }

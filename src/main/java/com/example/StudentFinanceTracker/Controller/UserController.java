@@ -7,6 +7,7 @@ import com.example.StudentFinanceTracker.Model.User;
 import com.example.StudentFinanceTracker.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -33,10 +34,11 @@ public class UserController {
         return "pages/createStudent";
     }
     @PostMapping("/students/create")
-    public String createStudent(@ModelAttribute User user) {
+    public String createStudent(@ModelAttribute User user,RedirectAttributes redirectAttributes) {
         user.setIsAdmin(0);
         user.setPosition("Student");
         userService.saveUser(user);
+        redirectAttributes.addFlashAttribute("toastMessage", "Student created successfully!");
         return "redirect:/students";
 
     }
@@ -51,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/students/update/{id}")
-    public String updateStudent(@PathVariable Long id,
+    public String updateStudent(@PathVariable Long id,RedirectAttributes redirectAttributes,
                                 @ModelAttribute User updatedUser,
                                 @RequestParam(required = false) String newPassword) {
         User existing = userService.getUserById(id);
@@ -65,6 +67,7 @@ public class UserController {
                             : existing.getPassword()
             );
             userService.saveUser(updatedUser);
+            redirectAttributes.addFlashAttribute("toastMessage", "Student updated successfully!");
         }
         return "redirect:/students";
     }
@@ -81,10 +84,11 @@ public class UserController {
     }
 
     @PostMapping("/students/delete/{id}")
-    public String deleteStudent(@PathVariable Long id) {
+    public String deleteStudent(@PathVariable Long id , RedirectAttributes redirectAttributes) {
         User user = userService.getUserById(id);
         if (user != null && user.getIsAdmin() == 0) {
             userService.deleteUser(id);
+            redirectAttributes.addFlashAttribute("toastMessage", "Student deleted successfully!");
         }
         return "redirect:/students";
     }

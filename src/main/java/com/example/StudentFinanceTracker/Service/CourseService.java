@@ -32,4 +32,7 @@ public class CourseService {
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
     }
+    public List<Course> getCoursesByUserId(Long userId) {
+        return courseRepository.findByUser_Id(userId);
+    }
 }
