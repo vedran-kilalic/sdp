@@ -28,53 +28,29 @@ public class PaymentHistory {
     @JoinColumn(name = "payment_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Payment payment;
 
-    // Getteri i setteri
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private User user;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getUserId() {
-        return userId;
-    }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+    public Long getPaymentId() { return paymentId; }
+    public void setPaymentId(Long paymentId) { this.paymentId = paymentId; }
 
-    public Long getPaymentId() {
-        return paymentId;
-    }
+    public PaymentStatus getStatus() { return status; }
+    public void setStatus(PaymentStatus status) { this.status = status; }
 
-    public void setPaymentId(Long paymentId) {
-        this.paymentId = paymentId;
-    }
+    public LocalDate getPayDate() { return payDate; }
+    public void setPayDate(LocalDate payDate) { this.payDate = payDate; }
 
-    public PaymentStatus getStatus() {
-        return status;
-    }
+    public Payment getPayment() { return payment; }
+    public void setPayment(Payment payment) { this.payment = payment; }
 
-    public void setStatus(PaymentStatus status) {
-        this.status = status;
-    }
-
-    public LocalDate getPayDate() {
-        return payDate;
-    }
-
-    public void setPayDate(LocalDate payDate) {
-        this.payDate = payDate;
-    }
-
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 }

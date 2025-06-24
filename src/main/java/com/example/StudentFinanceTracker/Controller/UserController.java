@@ -1,5 +1,7 @@
 package com.example.StudentFinanceTracker.Controller;
 
+import com.example.StudentFinanceTracker.Security.JwtUtil;
+import com.example.StudentFinanceTracker.Security.MailService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +17,15 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class UserController {
 
+    @Autowired
+    private JwtUtil jwtUtil;
     private final UserService userService;
+    private final MailService mailService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService , MailService mailService) {
         this.userService = userService;
+        this.mailService = mailService;
     }
 
     @GetMapping("/students")
@@ -99,30 +105,64 @@ public class UserController {
         return "pages/login";
     }
 
-
     @PostMapping("/login")
     public String login(@RequestParam String email,
                         @RequestParam String password,
                         Model model,
                         HttpSession session) {
         User user = userService.getByEmail(email);
-        if (user != null && user.getPassword().equals(password)) {
+        if (user != null && userService.checkPassword(password, user.getPassword())) {
             session.setAttribute("loggedInUser", user);
+            String jwtToken = jwtUtil.generateToken(user.getEmail());
+            session.setAttribute("jwt", jwtToken);
+
             return user.getIsAdmin() == 1 ? "redirect:/admin" : "redirect:/student";
         } else {
             model.addAttribute("error", "Invalid credentials");
             return "pages/login";
         }
     }
+
     @GetMapping("/reset-password")
     public String showResetPasswordPage() {
         return "pages/resetPassword";
     }
 
-//    @PostMapping("/reset-password")
-//    public String resetPassword() {
-//        return "pages/resetPassword";
-//    }
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam String email, RedirectAttributes redirectAttributes) {
+        User user = userService.getByEmail(email);
+        if (user != null) {
+            mailService.sendResetPasswordEmail(email);
+            redirectAttributes.addFlashAttribute("toastMessage", "Reset link sent to your email.");
+        } else {
+            redirectAttributes.addFlashAttribute("toastMessage", "Email not found.");
+        }
+        return "redirect:/login";
+    }
+
+    @GetMapping("/change-password")
+    public String showChangeUserPasswordForm(@RequestParam("token") String token, Model model) {
+        model.addAttribute("token", token);
+        return "pages/changePassword";
+    }
+
+    @PostMapping("/change-password")
+    public String changeUserPassword(@RequestParam("token") String token,
+                                     @RequestParam("currentPassword") String currentPassword,
+                                     @RequestParam("newPassword") String newPassword,
+                                     RedirectAttributes redirectAttributes) {
+
+        boolean success = userService.changePassword(token, currentPassword, newPassword);
+
+        if (success) {
+            redirectAttributes.addFlashAttribute("toastMessage", "Password updated successfully.");
+            return "redirect:/login";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Invalid current password or token.");
+            return "redirect:/change-password?token=" + token;
+        }
+    }
+
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
@@ -148,6 +188,4 @@ public class UserController {
         model.addAttribute("user", user);
         return "pages/adminProfile";
     }
-
-
 }

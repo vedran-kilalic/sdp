@@ -1,6 +1,11 @@
 package com.example.StudentFinanceTracker.Model;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -24,14 +29,18 @@ public class User {
 
     private String city;
 
-    private String birthDate;
+    private LocalDate birthDate;
 
     private String gender;
 
     private String position;
 
-    public User() {
-    }
+    private String secretKey;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PaymentHistory> paymentHistoryList;
+
+    public User() {}
 
     public User(String fullName, String email, String password, String department, Integer isAdmin) {
         this.fullName = fullName;
@@ -67,12 +76,27 @@ public class User {
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
 
-    public String getBirthDate() { return birthDate; }
-    public void setBirthDate(String birthDate) { this.birthDate = birthDate; }
+    public LocalDate getBirthDate() { return birthDate; }
+    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
 
     public String getGender() { return gender; }
     public void setGender(String gender) { this.gender = gender; }
 
     public String getPosition() { return position; }
     public void setPosition(String position) { this.position = position; }
+
+    public List<PaymentHistory> getPaymentHistoryList() {
+        return paymentHistoryList;
+    }
+
+    public void setPaymentHistoryList(List<PaymentHistory> paymentHistoryList) {
+        this.paymentHistoryList = paymentHistoryList;
+    }
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
 }

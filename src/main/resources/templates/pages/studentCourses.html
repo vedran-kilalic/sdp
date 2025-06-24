@@ -11,7 +11,7 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/admin}">E-Finance</a>
+            <a class="navbar-brand" th:href="@{/student}">E-Finance</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -29,9 +29,9 @@
                 </ul>
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item d-flex align-items-center me-3">
-                        <a th:href="@{/adminProfile}" class="d-flex align-items-center text-white text-decoration-none">
+                        <a th:href="@{/profile}" class="d-flex align-items-center text-white text-decoration-none">
                             <img th:src="@{/img/profile.jpg}" alt="Profile" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; border: 2px solid white;">
-                            <span class="ms-2 fw-bold">Admin</span>
+                            <span class="ms-2 fw-bold" th:text="${session.loggedInUser.fullName}">User Name</span>
                         </a>
                     </li>
                     <li class="nav-item">
