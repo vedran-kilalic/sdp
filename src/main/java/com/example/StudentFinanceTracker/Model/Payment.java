@@ -23,13 +23,17 @@ public class Payment {
     @Column(nullable = false)
     private String description;
 
+    @Column(name = "status")
+    private String status;
+
     public Payment() {}
 
-    public Payment(Long userId, Double amount, LocalDate paymentDate, String description) {
+    public Payment(Long userId, Double amount, LocalDate paymentDate, String description,String status) {
         this.userId = userId;
         this.amount = amount;
         this.paymentDate = paymentDate;
         this.description = description;
+        this.status = status;
     }
 
     public Long getId() {
@@ -71,4 +75,13 @@ public class Payment {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }

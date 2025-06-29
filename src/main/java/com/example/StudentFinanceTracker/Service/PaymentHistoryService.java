@@ -16,4 +16,8 @@ public class PaymentHistoryService {
     public List<PaymentHistory> getHistoryForUser(Long userId) {
         return paymentHistoryRepository.findByUserId(userId);
     }
+    public void save(PaymentHistory history) {
+        paymentHistoryRepository.save(history);
+    }
+
 }

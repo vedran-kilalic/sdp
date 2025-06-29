@@ -6,6 +6,78 @@
   <title>E-Finance</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    .page-card {
+      max-width: 1200px;
+      width: 90%;
+      margin: 100px auto;
+      padding: 25px 30px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+      padding: 0 20px 20px 20px;
+    }
+
+    .table-wrapper {
+      max-height: 400px;
+      overflow-y: auto;
+      margin: 0 auto;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 8px;
+      max-width: 100%;
+    }
+
+    .payment-table {
+      width: 95%;
+      max-width: 800px;
+      margin: 0 auto;
+      table-layout: fixed;
+    }
+
+    .payment-table th, .payment-table td {
+      word-wrap: break-word;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .status.paid {
+      background-color: #28a745;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9em;
+      display: inline-block;
+    }
+
+    .status.late {
+      background-color: #dc3545;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9em;
+      display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+      .page-card {
+        width: 95%;
+        margin: 20px auto;
+        padding: 15px;
+      }
+
+      .payment-table {
+        min-width: 600px;
+      }
+    }
+  </style>
 </head>
 <body>
 <header>
@@ -17,15 +89,9 @@
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto ms-4">
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/payments}">Payment</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/paymentHistory}">History Of Payments</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/studentCourses}">Courses</a>
-          </li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/payments}">Payment</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/paymentHistory}">History Of Payments</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/studentCourses}">Courses</a></li>
         </ul>
         <ul class="navbar-nav ms-auto align-items-center">
           <li class="nav-item d-flex align-items-center me-3">
@@ -35,9 +101,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/logout}">
-              Logout <i class="bi bi-door-open-fill"></i>
-            </a>
+            <a class="nav-link" th:href="@{/logout}">Logout <i class="bi bi-door-open-fill"></i></a>
           </li>
         </ul>
       </div>
@@ -45,35 +109,41 @@
   </nav>
 </header>
 
-<div class="payment-table-card">
-  <h3><i class="bi bi-clock-history"></i> Payment History</h3>
-  <table class="payment-table">
-    <thead>
-    <tr>
-      <th>Amount (BAM)</th>
-      <th>Due Date</th>
-      <th>Pay Date</th>
-      <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="record : ${paymentHistory}">
-      <td th:text="${record.payment.amount}"></td>
-      <td th:text="${record.payment.paymentDate}"></td>
-      <td th:text="${record.payDate}"></td>
-      <td>
-        <span th:classappend="${record.status.name() == 'PAID_ON_TIME'} ? 'status paid' : 'status late'"
-              th:text="${record.status.displayName}">
-        </span>
-        <button class="review-btn">Review</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<main>
+  <div class="page-card">
+    <div class="card-body">
+      <h3><i class="bi bi-clock-history"></i> Payment History</h3>
+      <div class="table-wrapper">
+        <div class="table-responsive">
+          <table class="payment-table table table-bordered text-center">
+            <thead>
+            <tr>
+              <th>Amount (BAM)</th>
+              <th>Due Date</th>
+              <th>Pay Date</th>
+              <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="record : ${paymentHistory}">
+              <td th:text="${record.payment.amount}"></td>
+              <td th:text="${record.payment.paymentDate}"></td>
+              <td th:text="${record.payDate}"></td>
+              <td>
+                <span th:classappend="${record.status.name() == 'PAID_ON_TIME'} ? 'status paid' : 'status late'"
+                      th:text="${record.status.displayName}">Status</span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
-<footer class="border-top footer bg-primary text-white">
-  <div class="container text-center">
+<footer class="border-top footer bg-primary text-white text-center py-3">
+  <div class="container">
     E-Finance <i class="bi bi-balloon-heart-fill"></i>
   </div>
 </footer>
