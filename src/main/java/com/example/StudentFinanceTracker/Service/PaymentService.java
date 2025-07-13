@@ -3,13 +3,17 @@ package com.example.StudentFinanceTracker.Service;
 import com.example.StudentFinanceTracker.Model.Payment;
 import com.example.StudentFinanceTracker.Model.PaymentHistory;
 import com.example.StudentFinanceTracker.Model.PaymentStatus;
+import com.example.StudentFinanceTracker.Model.User;
 import com.example.StudentFinanceTracker.Repository.IPaymentRepository;
+import com.example.StudentFinanceTracker.Security.MailService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PaymentService {
@@ -18,6 +22,14 @@ public class PaymentService {
     private IPaymentRepository paymentRepository;
     @Autowired
     private PaymentHistoryService paymentHistoryService;
+    @Autowired
+    private PdfGeneratorService pdfGeneratorService;
+
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private UserService userService;
 
     public List<Payment> getPaymentsForUser(Long userId) {
         return paymentRepository.findByUserId(userId);
@@ -48,7 +60,6 @@ public class PaymentService {
         LocalDate today = LocalDate.now();
         LocalDate dueDate = payment.getPaymentDate();
 
-
         payment.setStatus("Paid");
         paymentRepository.save(payment);
 
@@ -60,6 +71,25 @@ public class PaymentService {
                 : PaymentStatus.PAID_LATE);
         history.setPayDate(today);
         paymentHistoryService.save(history);
+
+        try {
+            User user = userService.getUserById(userId);
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("payerName", user.getFullName());
+            data.put("amount", payment.getAmount());
+            data.put("paymentDate", today);
+            data.put("accountNumber", "1610000000000012");
+            data.put("installmentMonth", payment.getDescription());
+
+            byte[] pdf = pdfGeneratorService.generatePdfFromTemplate("pages/paymentReport", data);
+            mailService.sendPaymentReport(user.getEmail(), pdf);
+
+        } catch (Exception e) {
+            System.err.println("Error in sending report in email form: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
 
 }
