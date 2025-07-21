@@ -1,7 +1,9 @@
 package com.example.StudentFinanceTracker.Controller;
 
+import com.example.StudentFinanceTracker.Model.PaymentHistory;
 import com.example.StudentFinanceTracker.Security.JwtUtil;
 import com.example.StudentFinanceTracker.Security.MailService;
+import com.example.StudentFinanceTracker.Service.PaymentHistoryService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +22,14 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
     private final UserService userService;
+    private final PaymentHistoryService paymentHistoryService;
     private final MailService mailService;
 
     @Autowired
-    public UserController(UserService userService , MailService mailService) {
+    public UserController(UserService userService , MailService mailService, PaymentHistoryService paymentHistoryService) {
         this.userService = userService;
         this.mailService = mailService;
+        this.paymentHistoryService = paymentHistoryService;
     }
 
     @GetMapping("/students")
@@ -188,4 +192,25 @@ public class UserController {
         model.addAttribute("user", user);
         return "pages/adminProfile";
     }
+
+    @GetMapping("/status")
+    public String showStatusPage(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "pages/status";
+    }
+
+    @GetMapping("/status/{id}")
+    public String showUserStatus(@PathVariable Long id, Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+
+        List<PaymentHistory> paymentHistory = paymentHistoryService.getHistoryForUser(id);
+        model.addAttribute("paymentHistory", paymentHistory);
+        model.addAttribute("selectedUserId", id);
+
+        return "pages/status";
+    }
+
+
 }

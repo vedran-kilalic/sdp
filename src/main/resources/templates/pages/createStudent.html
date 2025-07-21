@@ -50,6 +50,9 @@
           <li class="nav-item">
             <a class="nav-link" th:href="@{/courses}">Courses</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/status}">Status</a>
+          </li>
         </ul>
         <ul class="navbar-nav ms-auto align-items-center">
           <li class="nav-item d-flex align-items-center me-3">
@@ -144,4 +147,9 @@
   </div>
 </footer>
 </body>
+<script>
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+  });
+</script>
 </html>
