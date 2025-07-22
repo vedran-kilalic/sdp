@@ -80,7 +80,7 @@ public class PaymentService {
             data.put("amount", payment.getAmount());
             data.put("paymentDate", today);
             data.put("accountNumber", "1610000000000012");
-            data.put("installmentMonth", payment.getDescription());
+            data.put("paymentReason", payment.getDescription());
 
             byte[] pdf = pdfGeneratorService.generatePdfFromTemplate("pages/paymentReport", data);
             mailService.sendPaymentReport(user.getEmail(), pdf);

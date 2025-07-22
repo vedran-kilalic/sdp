@@ -1,5 +1,7 @@
 package com.example.StudentFinanceTracker.Service;
 
+import com.example.StudentFinanceTracker.Model.Payment;
+import com.example.StudentFinanceTracker.Model.User;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -33,4 +35,17 @@ public class PdfGeneratorService {
             throw new RuntimeException("Error in PDF Generation: " + e.getMessage(), e);
         }
     }
+
+    public byte[] generatePaymentReport(User user, Payment payment) {
+        Map<String, Object> data = Map.of(
+                "accountNumber","1610000000000012",
+                "payerName", user.getFullName(),
+                "amount", payment.getAmount(),
+                "paymentDate", payment.getPaymentDate().toString(),
+                "paymentReason", payment.getDescription()
+        );
+
+        return generatePdfFromTemplate("pages/paymentReport", data);
+    }
+
 }
